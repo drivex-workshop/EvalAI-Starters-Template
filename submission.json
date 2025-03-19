@@ -1,0 +1,1514 @@
+{
+    "openlabel": {
+        "metadata": {
+            "schema_version": "1.0.0"
+        },
+        "coordinate_systems": {},
+        "frames": {
+            "0": {
+                "objects": {
+                    "5520740d-0555-4e6f-bddf-320bdb94f313": {
+                        "object_data": {
+                            "name": "TRAILER_5520740d",
+                            "type": "TRAILER",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    -12.075572967529297,
+                                    -9.960159301757812,
+                                    -6.742569446563721,
+                                    0.0,
+                                    0.0,
+                                    0.03429717235476824,
+                                    0.9994116789233891,
+                                    4.977721214294434,
+                                    2.6229331493377686,
+                                    4.130328178405762
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.8853764533996582
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "98c06e5d-ad32-4fb1-afaf-d17c5618e1a5": {
+                        "object_data": {
+                            "name": "CAR_98c06e5d",
+                            "type": "CAR",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    32.14118957519531,
+                                    -40.395423889160156,
+                                    -6.2323620319366455,
+                                    0.0,
+                                    0.0,
+                                    0.7281055553296464,
+                                    0.6854650248540091,
+                                    4.846346855163574,
+                                    2.1432549953460693,
+                                    1.705371379852295
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.8829319477081299
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "64ff0207-84e0-4c3a-b162-edcc78a82195": {
+                        "object_data": {
+                            "name": "TRUCK_64ff0207",
+                            "type": "TRUCK",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    -8.854438781738281,
+                                    -9.940818786621094,
+                                    -6.911075830459595,
+                                    0.0,
+                                    0.0,
+                                    0.02830200603339509,
+                                    0.9995994179942712,
+                                    2.6067514419555664,
+                                    2.6691441535949707,
+                                    3.5144190788269043
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.8563089966773987
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "0aac07d6-df27-4dd8-b12b-5e14050d9019": {
+                        "object_data": {
+                            "name": "TRUCK_0aac07d6",
+                            "type": "TRUCK",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    29.04534912109375,
+                                    -49.63488006591797,
+                                    -5.377455949783325,
+                                    0.0,
+                                    0.0,
+                                    0.7139894936024913,
+                                    0.7001564132572508,
+                                    3.6308207511901855,
+                                    2.6455228328704834,
+                                    3.598052501678467
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.8547252416610718
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "6a67524c-6101-4549-837e-b1033be2ef1e": {
+                        "object_data": {
+                            "name": "TRUCK_6a67524c",
+                            "type": "TRUCK",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    10.701240539550781,
+                                    28.67334747314453,
+                                    -6.519065737724304,
+                                    0.0,
+                                    0.0,
+                                    -0.7569744601885342,
+                                    0.6534444633037128,
+                                    2.0041773319244385,
+                                    3.0086660385131836,
+                                    3.430422067642212
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.8617983460426331
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "ae8aeac5-be8a-4362-a8a3-d6ddcdeb2399": {
+                        "object_data": {
+                            "name": "TRUCK_ae8aeac5",
+                            "type": "TRUCK",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    13.671112060546875,
+                                    40.472450256347656,
+                                    -6.321094870567322,
+                                    0.0,
+                                    0.0,
+                                    -0.7748551966251458,
+                                    0.6321387697831914,
+                                    2.294786214828491,
+                                    2.8823790550231934,
+                                    3.749099016189575
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.8530791401863098
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "a7aabfdb-3d24-491a-997b-0fb818d516b5": {
+                        "object_data": {
+                            "name": "TRAILER_a7aabfdb",
+                            "type": "TRAILER",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    28.404144287109375,
+                                    -35.755550384521484,
+                                    -4.982754468917847,
+                                    0.0,
+                                    0.0,
+                                    0.7106728499704495,
+                                    0.7035226366755223,
+                                    20.155574798583984,
+                                    2.778061866760254,
+                                    4.60203218460083
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.8281511664390564
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "2cf60674-98ea-4dc1-a783-ef9f7f1c44de": {
+                        "object_data": {
+                            "name": "PEDESTRIAN_2cf60674",
+                            "type": "PEDESTRIAN",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    36.538291931152344,
+                                    33.174560546875,
+                                    -6.284984290599823,
+                                    0.0,
+                                    0.0,
+                                    -0.5606798038210064,
+                                    0.8280327032111944,
+                                    0.8265660405158997,
+                                    0.8307821154594421,
+                                    1.8043609857559204
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.1562034785747528
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "c1da1a21-e341-43be-aeb2-8d97ed66c58c": {
+                        "object_data": {
+                            "name": "TRAILER_c1da1a21",
+                            "type": "TRAILER",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    14.433052062988281,
+                                    44.64244079589844,
+                                    -6.389573574066162,
+                                    0.0,
+                                    0.0,
+                                    -0.769187510758293,
+                                    0.6390231398732451,
+                                    6.781656265258789,
+                                    2.859036922454834,
+                                    3.707085609436035
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.8214946985244751
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "d4b8bea4-ff5b-47a7-b4ef-0e1a3f602203": {
+                        "object_data": {
+                            "name": "PEDESTRIAN_d4b8bea4",
+                            "type": "PEDESTRIAN",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    34.265541076660156,
+                                    13.408172607421875,
+                                    -6.572334289550781,
+                                    0.0,
+                                    0.0,
+                                    -0.6636015931622239,
+                                    0.7480861752181751,
+                                    0.893082320690155,
+                                    0.8558630347251892,
+                                    1.8606204986572266
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.466680109500885
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "25e7e299-b344-47a6-ae47-f490e3f246c0": {
+                        "object_data": {
+                            "name": "CAR_25e7e299",
+                            "type": "CAR",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    21.345664978027344,
+                                    -26.578105926513672,
+                                    -6.61218535900116,
+                                    0.0,
+                                    0.0,
+                                    0.7266251694355883,
+                                    0.6870341062441533,
+                                    4.772834300994873,
+                                    2.1018471717834473,
+                                    1.4627773761749268
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.8330162763595581
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "4ac265ba-db96-4796-b455-54fd0f9a1ca4": {
+                        "object_data": {
+                            "name": "CAR_4ac265ba",
+                            "type": "CAR",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    54.43067932128906,
+                                    -1.637298583984375,
+                                    -5.724887251853943,
+                                    0.0,
+                                    0.0,
+                                    0.02189735007424885,
+                                    0.9997602242836658,
+                                    4.925382137298584,
+                                    2.1195805072784424,
+                                    1.7784245014190674
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.7616783380508423
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "39fe944b-00ff-4306-8bc8-62c8d29bef33": {
+                        "object_data": {
+                            "name": "CAR_39fe944b",
+                            "type": "CAR",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    -8.052726745605469,
+                                    -6.538368225097656,
+                                    -7.838500618934631,
+                                    0.0,
+                                    0.0,
+                                    0.01846600787062764,
+                                    0.999829488739616,
+                                    4.819469928741455,
+                                    2.107651948928833,
+                                    1.4532573223114014
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.7902083992958069
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "fee954b7-836f-4d5d-a697-27840889d9f5": {
+                        "object_data": {
+                            "name": "TRAILER_fee954b7",
+                            "type": "TRAILER",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    33.13074493408203,
+                                    -57.8726806640625,
+                                    -4.937586665153503,
+                                    0.0,
+                                    0.0,
+                                    0.7475439499263168,
+                                    0.6642123477688144,
+                                    7.786296367645264,
+                                    2.717684745788574,
+                                    3.9538958072662354
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.8076761364936829
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "6213393b-bfbe-4283-a693-18833ac43a8a": {
+                        "object_data": {
+                            "name": "BUS_6213393b",
+                            "type": "BUS",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    15.223152160644531,
+                                    30.94159698486328,
+                                    -6.538514971733093,
+                                    0.0,
+                                    0.0,
+                                    -0.7827561673812129,
+                                    0.6223285164819902,
+                                    13.795377731323242,
+                                    3.0444138050079346,
+                                    3.2932207584381104
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.15256981551647186
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "ef1edfbc-dfe5-4af1-b800-213258253bb9": {
+                        "object_data": {
+                            "name": "TRAILER_ef1edfbc",
+                            "type": "TRAILER",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    11.49859619140625,
+                                    32.64970397949219,
+                                    -6.432669043540955,
+                                    0.0,
+                                    0.0,
+                                    -0.7556019311960924,
+                                    0.6550310844324378,
+                                    7.180021286010742,
+                                    3.3343470096588135,
+                                    3.5842602252960205
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.80428546667099
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "edd7d449-02da-42fd-a6c0-91e7c2582a87": {
+                        "object_data": {
+                            "name": "TRUCK_edd7d449",
+                            "type": "TRUCK",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    33.0113525390625,
+                                    -53.28791427612305,
+                                    -5.182666778564453,
+                                    0.0,
+                                    0.0,
+                                    0.7141538168099729,
+                                    0.6999888041502861,
+                                    2.5157432556152344,
+                                    2.8257317543029785,
+                                    3.7554378509521484
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.779217541217804
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "860ad117-3d27-4e8c-a7d9-7385b41e7e3e": {
+                        "object_data": {
+                            "name": "TRUCK_860ad117",
+                            "type": "TRUCK",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    28.25281524658203,
+                                    -30.319339752197266,
+                                    -6.0357338190078735,
+                                    0.0,
+                                    0.0,
+                                    0.7305067206836704,
+                                    0.6829055066669107,
+                                    8.847528457641602,
+                                    2.824126720428467,
+                                    2.6364314556121826
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.7071853280067444
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "b31b0b8a-03ea-4187-bbcd-b57b2ffe106f": {
+                        "object_data": {
+                            "name": "CAR_b31b0b8a",
+                            "type": "CAR",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    31.52086639404297,
+                                    -25.65554428100586,
+                                    -6.127578496932983,
+                                    0.0,
+                                    0.0,
+                                    0.7236687815392069,
+                                    0.6901474441201384,
+                                    5.645545482635498,
+                                    2.247248649597168,
+                                    2.072422504425049
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.6767063140869141
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "e4ba825b-882a-4bdf-9ceb-e7b7a5d00d03": {
+                        "object_data": {
+                            "name": "CAR_e4ba825b",
+                            "type": "CAR",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    47.96107482910156,
+                                    33.24817657470703,
+                                    -6.342489957809448,
+                                    0.0,
+                                    0.0,
+                                    -0.8470936535700868,
+                                    0.5314436396093962,
+                                    4.313499927520752,
+                                    2.153353214263916,
+                                    1.8821988105773926
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.6060755252838135
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "7356cb20-0c40-4e1a-858f-e684ae82869f": {
+                        "object_data": {
+                            "name": "TRAILER_7356cb20",
+                            "type": "TRAILER",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    29.260757446289062,
+                                    -53.89219665527344,
+                                    -5.308365345001221,
+                                    0.0,
+                                    0.0,
+                                    0.7433241296668283,
+                                    0.6689314152101486,
+                                    6.18142032623291,
+                                    2.5726521015167236,
+                                    3.496516227722168
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.5907875299453735
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "887150f7-c987-4b6a-a8c6-df660e9db024": {
+                        "object_data": {
+                            "name": "CAR_887150f7",
+                            "type": "CAR",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    -21.39761734008789,
+                                    -11.033714294433594,
+                                    -8.08969646692276,
+                                    0.0,
+                                    0.0,
+                                    0.025876609875567634,
+                                    0.9996651444665597,
+                                    4.6204514503479,
+                                    2.0841596126556396,
+                                    1.3911789655685425
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.5133160948753357
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "5784f335-1ba6-4e08-a4c0-32a45143008e": {
+                        "object_data": {
+                            "name": "CAR_5784f335",
+                            "type": "CAR",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    14.468032836914062,
+                                    -52.089691162109375,
+                                    -6.719991087913513,
+                                    0.0,
+                                    0.0,
+                                    -0.6900517553286125,
+                                    0.7237600258151183,
+                                    4.738343238830566,
+                                    2.0976052284240723,
+                                    1.542696237564087
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.3283398449420929
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "7b525bf4-8765-4c02-ac3a-15fa45d549fe": {
+                        "object_data": {
+                            "name": "PEDESTRIAN_7b525bf4",
+                            "type": "PEDESTRIAN",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    35.25475311279297,
+                                    17.28668212890625,
+                                    -6.511819899082184,
+                                    0.0,
+                                    0.0,
+                                    -0.6589437284172867,
+                                    0.7521922379149663,
+                                    0.8746262788772583,
+                                    0.8268539905548096,
+                                    1.8902987241744995
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.1400192528963089
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "0a81b499-7ada-4f7a-9a2e-162b44e53b26": {
+                        "object_data": {
+                            "name": "VAN_0a81b499",
+                            "type": "VAN",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    -32.072776794433594,
+                                    -8.304359436035156,
+                                    -7.681059956550598,
+                                    0.0,
+                                    0.0,
+                                    0.02577480930582882,
+                                    0.9996677744157046,
+                                    7.008717060089111,
+                                    2.333003282546997,
+                                    2.6373441219329834
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.15565751492977142
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "904ab272-966b-41dc-b4bd-51a60426c2ba": {
+                        "object_data": {
+                            "name": "BUS_904ab272",
+                            "type": "BUS",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    19.828102111816406,
+                                    37.61387634277344,
+                                    -6.496070027351379,
+                                    0.0,
+                                    0.0,
+                                    -0.7633691890776149,
+                                    0.6459624456320852,
+                                    12.624086380004883,
+                                    3.121171474456787,
+                                    3.531236410140991
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.36327114701271057
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "a8b16cb0-ab3e-45a1-a2cc-abb49fe1ad6e": {
+                        "object_data": {
+                            "name": "PEDESTRIAN_a8b16cb0",
+                            "type": "PEDESTRIAN",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    36.563316345214844,
+                                    33.02748107910156,
+                                    -6.482065498828888,
+                                    0.0,
+                                    0.0,
+                                    -0.5676092028094212,
+                                    0.8232981190832719,
+                                    0.8676632046699524,
+                                    0.8645034432411194,
+                                    1.8355134725570679
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.26639309525489807
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "f42ea62b-1163-4944-890e-f0a42ebb2d2d": {
+                        "object_data": {
+                            "name": "PEDESTRIAN_f42ea62b",
+                            "type": "PEDESTRIAN",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    36.34721374511719,
+                                    32.59307861328125,
+                                    -6.438855290412903,
+                                    0.0,
+                                    0.0,
+                                    -0.5578119632489773,
+                                    0.8299673569823826,
+                                    0.8756091594696045,
+                                    0.8675772547721863,
+                                    1.8908631801605225
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.10453373193740845
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "6f37e822-d88e-4c3f-8c18-8fc54aadfb1c": {
+                        "object_data": {
+                            "name": "CAR_6f37e822",
+                            "type": "CAR",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    16.921493530273438,
+                                    -59.50428009033203,
+                                    -6.968180298805237,
+                                    0.0,
+                                    0.0,
+                                    -0.6822000208823753,
+                                    0.7311655978696526,
+                                    4.898921012878418,
+                                    2.15075421333313,
+                                    1.50242018699646
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.17325828969478607
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    },
+                    "28fb877e-fa47-436f-a245-3b304d99746e": {
+                        "object_data": {
+                            "name": "PEDESTRIAN_28fb877e",
+                            "type": "PEDESTRIAN",
+                            "cuboid": {
+                                "name": "shape3D",
+                                "val": [
+                                    35.197853088378906,
+                                    17.631675720214844,
+                                    -6.544842302799225,
+                                    0.0,
+                                    0.0,
+                                    -0.6525541592431428,
+                                    0.7577420862367849,
+                                    0.9735915660858154,
+                                    0.8765342831611633,
+                                    1.9229964017868042
+                                ],
+                                "attributes": {
+                                    "text": [
+                                        {
+                                            "name": "overlap",
+                                            "val": "False"
+                                        },
+                                        {
+                                            "name": "sensor_id",
+                                            "val": "s110_lidar_ouster_south"
+                                        }
+                                    ],
+                                    "num": [
+                                        {
+                                            "name": "num_points",
+                                            "val": 0
+                                        },
+                                        {
+                                            "name": "score",
+                                            "val": 0.23722966015338898
+                                        }
+                                    ],
+                                    "vec": [
+                                        {
+                                            "name": "track_history",
+                                            "val": []
+                                        }
+                                    ]
+                                }
+                            },
+                            "bbox": []
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
