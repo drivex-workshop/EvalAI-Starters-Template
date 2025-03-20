@@ -33,16 +33,14 @@ def install_local_package(folder_name):
     ]
 )
 
-# install("pytorch3d==0.7.2")
-# install("numpy==1.23.5")
-# install("scipy==1.9.3") # 1.13.1
-# install("numba==0.56.4") # 0.60
-#install("torch==1.12.1") # 1.12.1+cu113
-#install("torchvision==0.13.1") #0.13.1+cu113
-#install("torchaudio==0.12.1")
+install("numpy==1.23.5")
+install("scipy==1.9.3")
+install("numba==0.56.4")
+install("torch==1.12.1")
+subprocess.check_call([sys.executable, "-m", "pip", "install", "--extra-index-url", "https://miropsota.github.io/torch_packages_builder", "pytorch3d==0.7.5+pt1.12.1cpu"])
 
 #install_local_package("package_folder_name")
 
-subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "github/requirements.txt"])
+# subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "github/requirements.txt"])
 
 from .main import evaluate
