@@ -1,5 +1,5 @@
 PyGithub===1.53
-requests==2.24.0
+requests==2.30.0
 numpy==1.21.0
 scipy==1.5.4
 numba==0.56.4

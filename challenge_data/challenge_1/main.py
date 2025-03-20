@@ -158,7 +158,6 @@ def get_3d_box(box_size, heading_angle, center):
     return corners_3d
 
 
-
 def poly_area(x, y):
     """Ref: http://stackoverflow.com/questions/24467972/calculate-area-of-polygon-given-x-y-coordinates"""
     return 0.5 * np.abs(np.dot(x, np.roll(y, 1)) - np.dot(y, np.roll(x, 1)))
@@ -222,7 +221,6 @@ def polygon_clip(subjectPolygon, clipPolygon):
     return outputList
 
 
-
 def convex_hull_intersection(p1, p2):
     """Compute area of two convex hull's intersection area.
     p1,p2 are a list of (x,y) tuples of hull vertices.
@@ -234,7 +232,6 @@ def convex_hull_intersection(p1, p2):
         return inter_p, hull_inter.volume
     else:
         return None, 0.0
-
 
 
 def box3d_iou(corners1, corners2):
@@ -267,7 +264,6 @@ def box3d_iou(corners1, corners2):
     vol2 = box3d_vol(corners2)
     iou = inter_vol / (vol1 + vol2 - inter_vol)
     return iou, iou_2d
-
 
 
 def get_box3d_iou(box_info):
@@ -986,7 +982,7 @@ def load_3d_boxes(input_file_path):
 
 
 def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwargs):
-    print("Starting Evaluation.....")
+    print("Starting Challenge Evaluation.....")
     """
     Evaluates the submission for a particular challenge phase and returns score
     Arguments:
@@ -1051,24 +1047,11 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     print("Evaluating for Test Phase")
 
     # output structure for "remote evaluation"
-    output["result"] = [
-        {
-            "split": "test_split",
-            "show_to_participant": False,
-            "accuracies": {
-                "Precision": result_dict["precision"],
-                "Recall": result_dict["recall"],
-                "3D_IoU": result_dict["3d_iou"],
-                "Position_RMSE": result_dict["position_rmse"],
-                "Rotation_RMSE": result_dict["rotation_rmse"],
-                "3D_mAP": result_dict["3d_map"],
-            }
-        }
-    ]
-
     # output["result"] = [
     #     {
-    #         "test_split": {
+    #         "split": "test_split",
+    #         "show_to_participant": False,
+    #         "accuracies": {
     #             "Precision": result_dict["precision"],
     #             "Recall": result_dict["recall"],
     #             "3D_IoU": result_dict["3d_iou"],
@@ -1078,6 +1061,19 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     #         }
     #     }
     # ]
+
+    output["result"] = [
+        {
+            "test_split": {
+                "Precision": result_dict["precision"],
+                "Recall": result_dict["recall"],
+                "3D_IoU": result_dict["3d_iou"],
+                "Position_RMSE": result_dict["position_rmse"],
+                "Rotation_RMSE": result_dict["rotation_rmse"],
+                "3D_mAP": result_dict["3d_map"],
+            }
+        }
+    ]
     # To display the results in the result file
     output["submission_result"] = output["result"][0]
 

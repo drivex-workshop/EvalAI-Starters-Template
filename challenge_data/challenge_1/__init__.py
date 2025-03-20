@@ -36,7 +36,7 @@ def install_local_package(folder_name):
 # for Python 3.7.5
 install("numpy==1.21.0")
 install("scipy==1.5.4")
-install("requests==2.25.1")
+install("requests==2.30.0") # default 2.25.1
 install("numba==0.56.4")
 
 #install_local_package("package_folder_name")

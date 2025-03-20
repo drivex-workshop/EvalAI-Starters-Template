@@ -986,7 +986,7 @@ def load_3d_boxes(input_file_path):
 
 
 def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwargs):
-    print("Starting Evaluation.....")
+    print("Starting Remote Evaluation.....")
     """
     Evaluates the submission for a particular challenge phase and returns score
     Arguments:
