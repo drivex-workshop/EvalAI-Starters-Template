@@ -36,15 +36,8 @@ def install_local_package(folder_name):
 # for Python 3.7.5
 install("numpy==1.21.0")
 install("scipy==1.5.4")
-
-# for Python 3.9.15
-# install("numpy==1.23.5")
-# install("scipy==1.9.3")
-
 install("requests==2.25.1")
 install("numba==0.56.4")
-install("torch==1.12.1")
-subprocess.check_call([sys.executable, "-m", "pip", "install", "--extra-index-url", "https://miropsota.github.io/torch_packages_builder", "pytorch3d==0.7.5+pt1.12.1cpu"])
 
 #install_local_package("package_folder_name")
 
