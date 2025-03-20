@@ -1,4 +1,3 @@
-
 import glob
 import json
 import math
@@ -11,8 +10,6 @@ from pathlib import Path
 from multiprocessing import Pool
 import torch
 from pytorch3d.ops import box3d_overlap
-
-
 
 ##################################
 # Evaluation Script for 3D Object Detection
@@ -273,18 +270,16 @@ def overall_distance_filter(boxes, level):
     return ignore
 
 
-
-
 def get_evaluation_results(
-    gt_annotation_frames,
-    pred_annotation_frames,
-    classes,
-    iou_thresholds=None,
-    num_pr_points=50,
-    difficulty_mode="Overall&Distance",
-    ap_with_heading=True,
-    num_parts=100,
-    print_results=False
+        gt_annotation_frames,
+        pred_annotation_frames,
+        classes,
+        iou_thresholds=None,
+        num_pr_points=50,
+        difficulty_mode="Overall&Distance",
+        ap_with_heading=True,
+        num_parts=100,
+        print_results=False
 ):
     if iou_thresholds is None:
         iou_thresholds = iou_threshold_dict
@@ -295,7 +290,7 @@ def get_evaluation_results(
     num_samples = len(gt_annotation_frames)
     split_parts = compute_split_parts(num_samples, num_parts)
     # Use GPU for IoU 3D calculation
-    #ious = compute_iou3d(gt_annotation_frames, pred_annotation_frames)
+    # ious = compute_iou3d(gt_annotation_frames, pred_annotation_frames)
     ious = compute_iou3d_cpu(gt_annotation_frames, pred_annotation_frames)
     num_classes = len(classes)
     num_difficulties = 4
@@ -319,7 +314,6 @@ def get_evaluation_results(
         if len(gt_anno["name"]) == 0 or len(pred_anno["name"]) == 0:
             print("no gt or prediction")
             continue
-
 
         for cur_class in classes:
             if gt_anno["name"].size > 0:
@@ -413,10 +407,10 @@ def get_evaluation_results(
             ### draw p-r curve ###
             for th_idx in range(len(thresholds)):
                 recall[cls_idx, diff_idx, th_idx] = confusion_matrix[th_idx, 0] / (
-                    confusion_matrix[th_idx, 0] + confusion_matrix[th_idx, 2]
+                        confusion_matrix[th_idx, 0] + confusion_matrix[th_idx, 2]
                 )
                 precision[cls_idx, diff_idx, th_idx] = confusion_matrix[th_idx, 0] / (
-                    confusion_matrix[th_idx, 0] + confusion_matrix[th_idx, 1]
+                        confusion_matrix[th_idx, 0] + confusion_matrix[th_idx, 1]
                 )
 
             for th_idx in range(len(thresholds)):
@@ -446,7 +440,6 @@ def get_evaluation_results(
     ret_dict["precision"] = np.mean(precision_values)
     ret_dict["recall"] = np.mean(recall_values)
 
-
     ret_str = "|AP@%-15s|" % (str(num_pr_points))
     for diff_type in difficulty_types:
         ret_str += "%-15s|" % diff_type
@@ -474,7 +467,7 @@ def get_evaluation_results(
         ret_str += "%-10.2f|" % np.average(rot_err[cls_idx].flatten())
         ret_str += "\n"
     mAP = np.mean(AP, axis=0)
-    
+
     ret_str += "|%-18s|" % "mAP"
     for diff_idx in range(num_difficulties):
         diff_type = difficulty_types[diff_idx]
@@ -482,12 +475,12 @@ def get_evaluation_results(
         ap_score = mAP[diff_idx]
         ret_dict[key] = ap_score
         ret_str += "%-15.2f|" % ap_score
-    ret_dict["3d_map"] = mAP[0] # 3D mAP for distance [0 - inf]
+    ret_dict["3d_map"] = mAP[0]  # 3D mAP for distance [0 - inf]
     ret_str += "%-20s|" % (
-        str(np.sum(list(pred_class_occurrence.values())))
-        + "/"
-        + str(np.sum(list(gt_class_occurrence.values())))
-        + " (Total)"
+            str(np.sum(list(pred_class_occurrence.values())))
+            + "/"
+            + str(np.sum(list(gt_class_occurrence.values())))
+            + " (Total)"
     )
     ret_str += "%-10.2f|" % np.average(iou_3d.flatten())
     ret_str += "%-10.2f|" % np.average(pos_err.flatten())
@@ -778,8 +771,8 @@ def compute_iou3d(gt_annos, pred_annos, split_parts, with_heading):
     ious = []
     sample_idx = 0
     for num_part_samples in split_parts:
-        gt_annos_part = gt_annos[sample_idx : sample_idx + num_part_samples]
-        pred_annos_part = pred_annos[sample_idx : sample_idx + num_part_samples]
+        gt_annos_part = gt_annos[sample_idx: sample_idx + num_part_samples]
+        pred_annos_part = pred_annos[sample_idx: sample_idx + num_part_samples]
 
         gt_boxes = np.concatenate([anno["boxes_3d"] for anno in gt_annos_part], 0)
         pred_boxes = np.concatenate([anno["boxes_3d"] for anno in pred_annos_part], 0)
@@ -793,7 +786,7 @@ def compute_iou3d(gt_annos, pred_annos, split_parts, with_heading):
         for idx in range(num_part_samples):
             gt_box_num = gt_num_per_sample[sample_idx + idx]
             pred_box_num = pred_num_per_sample[sample_idx + idx]
-            ious.append(iou3d_part[gt_num_idx : gt_num_idx + gt_box_num, pred_num_idx : pred_num_idx + pred_box_num])
+            ious.append(iou3d_part[gt_num_idx: gt_num_idx + gt_box_num, pred_num_idx: pred_num_idx + pred_box_num])
             gt_num_idx += gt_box_num
             pred_num_idx += pred_box_num
         sample_idx += num_part_samples
@@ -844,7 +837,7 @@ def load_3d_boxes(input_file_path):
                 if np.linalg.norm([quat_x, quat_y, quat_z, quat_w]) == 0.0:
                     continue
 
-                #rotation_yaw = R.from_quat([quat_x, quat_y, quat_z, quat_w]).as_euler()
+                # rotation_yaw = R.from_quat([quat_x, quat_y, quat_z, quat_w]).as_euler()
                 # convert quaternion to euler angle
                 rotation_yaw = R.from_quat([quat_x, quat_y, quat_z, quat_w]).as_euler("zyx")[0]
                 position_3d = [
@@ -857,9 +850,9 @@ def load_3d_boxes(input_file_path):
                 num_points = 0
                 if attribute is not None:
                     num_points = int(float(attribute["val"]))
-                
+
                 # Specify how many minimum points there should be before a label is included.
-                #if num_points >= 5:
+                # if num_points >= 5:
                 name.append(category.upper())
                 boxes_3d.append(np.hstack((position_3d, l, w, h, rotation_yaw)))
                 num_points_in_gt.append(num_points)
@@ -868,7 +861,7 @@ def load_3d_boxes(input_file_path):
                 if attribute is not None:
                     score = attribute["val"]
                     scores.append(score)
-       
+
         label_dict = {
             "name": np.array(name),
             "boxes_3d": np.array(boxes_3d),
@@ -877,9 +870,6 @@ def load_3d_boxes(input_file_path):
         }
         labels_list.append(label_dict)
     return labels_list
-
-
-
 
 
 def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwargs):
@@ -937,7 +927,6 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     gt_data = load_3d_boxes(test_annotation_file)
     pred_data = load_3d_boxes(user_submission_file)
 
-
     result_str, result_dict = get_evaluation_results(
         gt_data,
         pred_data,
@@ -946,12 +935,14 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     )
     output = {}
 
-    
     print("Evaluating for Test Phase")
-    # TODO: check keys
+
+    # output structure for "remote evaluation"
     output["result"] = [
         {
-            "test_split": {
+            "split": "test_split",
+            "show_to_participant": False,
+            "accuracies": {
                 "Precision": result_dict["precision"],
                 "Recall": result_dict["recall"],
                 "3D_IoU": result_dict["3d_iou"],
@@ -959,8 +950,21 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
                 "Rotation_RMSE": result_dict["rotation_rmse"],
                 "3D_mAP": result_dict["3d_map"],
             }
-        },
+        }
     ]
+
+    # output["result"] = [
+    #     {
+    #         "test_split": {
+    #             "Precision": result_dict["precision"],
+    #             "Recall": result_dict["recall"],
+    #             "3D_IoU": result_dict["3d_iou"],
+    #             "Position_RMSE": result_dict["position_rmse"],
+    #             "Rotation_RMSE": result_dict["rotation_rmse"],
+    #             "3D_mAP": result_dict["3d_map"],
+    #         }
+    #     }
+    # ]
     # To display the results in the result file
     output["submission_result"] = output["result"][0]
 

@@ -936,10 +936,13 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     output = {}
 
     print("Evaluating for Test Phase")
-    # TODO: check keys
+
+    # output structure for "remote evaluation"
     output["result"] = [
         {
-            "test_split": {
+            "split": "test_split",
+            "show_to_participant": False,
+            "accuracies": {
                 "Precision": result_dict["precision"],
                 "Recall": result_dict["recall"],
                 "3D_IoU": result_dict["3d_iou"],
@@ -947,8 +950,21 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
                 "Rotation_RMSE": result_dict["rotation_rmse"],
                 "3D_mAP": result_dict["3d_map"],
             }
-        },
+        }
     ]
+
+    # output["result"] = [
+    #     {
+    #         "test_split": {
+    #             "Precision": result_dict["precision"],
+    #             "Recall": result_dict["recall"],
+    #             "3D_IoU": result_dict["3d_iou"],
+    #             "Position_RMSE": result_dict["position_rmse"],
+    #             "Rotation_RMSE": result_dict["rotation_rmse"],
+    #             "3D_mAP": result_dict["3d_map"],
+    #         }
+    #     }
+    # ]
     # To display the results in the result file
     output["submission_result"] = output["result"][0]
 
