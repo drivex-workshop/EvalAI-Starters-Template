@@ -1,4 +1,3 @@
-
 import glob
 import json
 import math
@@ -8,7 +7,9 @@ import numba
 from scipy.spatial.transform import Rotation as R
 import sys
 from pathlib import Path
-
+from multiprocessing import Pool
+import torch
+from pytorch3d.ops import box3d_overlap
 
 ##################################
 # Evaluation Script for 3D Object Detection
@@ -27,6 +28,65 @@ iou_threshold_dict = {
     "EMERGENCY_VEHICLE": 0.1,
     "OTHER": 0.1,
 }
+
+
+# @cuda.jit('(float32[:], float32[:])', device=True, inline=True)
+def rbbox_to_corners(corners, rbbox):
+    # generate clockwise corners and rotate it clockwise
+    angle = rbbox[4]
+    a_cos = math.cos(angle)
+    a_sin = math.sin(angle)
+    center_x = rbbox[0]
+    center_y = rbbox[1]
+    x_d = rbbox[2]
+    y_d = rbbox[3]
+    corners_x = cuda.local.array((4,), dtype=numba.float32)
+    corners_y = cuda.local.array((4,), dtype=numba.float32)
+    corners_x[0] = -x_d / 2
+    corners_x[1] = -x_d / 2
+    corners_x[2] = x_d / 2
+    corners_x[3] = x_d / 2
+    corners_y[0] = -y_d / 2
+    corners_y[1] = y_d / 2
+    corners_y[2] = y_d / 2
+    corners_y[3] = -y_d / 2
+    for i in range(4):
+        corners[2 *
+                i] = a_cos * corners_x[i] + a_sin * corners_y[i] + center_x
+        corners[2 * i
+                + 1] = -a_sin * corners_x[i] + a_cos * corners_y[i] + center_y
+
+
+# @cuda.jit('(float32[:], float32[:])', device=True, inline=True)
+def inter(rbbox1, rbbox2):
+    corners1 = cuda.local.array((8,), dtype=numba.float32)
+    corners2 = cuda.local.array((8,), dtype=numba.float32)
+    intersection_corners = cuda.local.array((16,), dtype=numba.float32)
+
+    rbbox_to_corners(corners1, rbbox1)
+    rbbox_to_corners(corners2, rbbox2)
+
+    num_intersection = quadrilateral_intersection(corners1, corners2,
+                                                  intersection_corners)
+    sort_vertex_in_convex_polygon(intersection_corners, num_intersection)
+    # print(intersection_corners.reshape([-1, 2])[:num_intersection])
+
+    return area(intersection_corners, num_intersection)
+
+
+# @cuda.jit('(float32[:], float32[:], int32)', device=True, inline=True)
+def devRotateIoUEval(rbox1, rbox2, criterion=-1):
+    area1 = rbox1[2] * rbox1[3]
+    area2 = rbox2[2] * rbox2[3]
+    area_inter = inter(rbox1, rbox2)
+    if criterion == -1:
+        return area_inter / (area1 + area2 - area_inter)
+    elif criterion == 0:
+        return area_inter / area1
+    elif criterion == 1:
+        return area_inter / area2
+    else:
+        return area_inter
 
 
 def rotate_iou_gpu_eval(boxes, query_boxes, criterion=-1, device_id=0):
@@ -68,6 +128,60 @@ def rotate_iou_gpu_eval(boxes, query_boxes, criterion=-1, device_id=0):
     #         N, K, boxes_dev, query_boxes_dev, iou_dev, criterion)
     #     iou_dev.copy_to_host(iou.reshape([-1]), stream=stream)
     return iou.astype(boxes.dtype)
+
+
+def get_3d_box(box_size, heading_angle, center):
+    """Calculate 3D bounding box corners from its parameterization.
+
+    Input:
+        box_size: tuple of (length,wide,height)
+        heading_angle: rad scalar, clockwise from pos x axis
+        center: tuple of (x,y,z)
+    Output:
+        corners_3d: numpy array of shape (8,3) for 3D box cornders
+    """
+
+    def roty(t):
+        c = np.cos(t)
+        s = np.sin(t)
+        return np.array([[c, 0, s], [0, 1, 0], [-s, 0, c]])
+
+    R = roty(heading_angle)
+    l, w, h = box_size
+    x_corners = [l / 2, l / 2, -l / 2, -l / 2, l / 2, l / 2, -l / 2, -l / 2]
+    y_corners = [h / 2, h / 2, h / 2, h / 2, -h / 2, -h / 2, -h / 2, -h / 2]
+    z_corners = [w / 2, -w / 2, -w / 2, w / 2, w / 2, -w / 2, -w / 2, w / 2]
+    corners_3d = np.dot(R, np.vstack([x_corners, y_corners, z_corners]))
+    corners_3d[0, :] = corners_3d[0, :] + center[0]
+    corners_3d[1, :] = corners_3d[1, :] + center[1]
+    corners_3d[2, :] = corners_3d[2, :] + center[2]
+    corners_3d = np.transpose(corners_3d)
+    return corners_3d
+
+
+def rotate_iou_cpu_one(box_info):
+    gt_box, pred_box = box_info
+    if np.linalg.norm(gt_box[:3] - pred_box[:3]) > 5:
+        return 0.0
+
+    # diff_rot = gt_box[6] - pred_box[6]
+    # diff_rot = np.abs(diff_rot)
+    # if diff_rot > np.pi:
+    #     diff_rot = 2 * np.pi - diff_rot
+    # if diff_rot > np.pi / 2:
+    #     return 0.0
+
+    corners_3d_ground = get_3d_box(gt_box[3:6], gt_box[-1], gt_box[[0, 2, 1]])
+    corners_3d_predict = get_3d_box(pred_box[3:6], pred_box[-1], pred_box[[0, 2, 1]])
+    # Sanity checks with ground truth revealed instability of this
+    # method, so replaced by new method from Facebook
+    # iou_3d, _ = box3d_iou(corners_3d_ground, corners_3d_predict)
+    # Preparation for Facebook method https://pytorch3d.org/docs/iou3d
+    corners_3d_ground = torch.from_numpy(np.expand_dims(corners_3d_ground, axis=0).astype(np.float32))
+    corners_3d_predict = torch.from_numpy(np.expand_dims(corners_3d_predict, axis=0).astype(np.float32))
+    _, iou_3d_pytorch3d = box3d_overlap(corners_3d_ground, corners_3d_predict)
+    iou_3d_pytorch3d = iou_3d_pytorch3d.numpy().item()
+    return iou_3d_pytorch3d
 
 
 def rotate_iou_cpu_eval(gt_boxes, pred_boxes):
@@ -156,18 +270,16 @@ def overall_distance_filter(boxes, level):
     return ignore
 
 
-
-
 def get_evaluation_results(
-    gt_annotation_frames,
-    pred_annotation_frames,
-    classes,
-    iou_thresholds=None,
-    num_pr_points=50,
-    difficulty_mode="Overall&Distance",
-    ap_with_heading=True,
-    num_parts=100,
-    print_results=False
+        gt_annotation_frames,
+        pred_annotation_frames,
+        classes,
+        iou_thresholds=None,
+        num_pr_points=50,
+        difficulty_mode="Overall&Distance",
+        ap_with_heading=True,
+        num_parts=100,
+        print_results=False
 ):
     if iou_thresholds is None:
         iou_thresholds = iou_threshold_dict
@@ -178,7 +290,7 @@ def get_evaluation_results(
     num_samples = len(gt_annotation_frames)
     split_parts = compute_split_parts(num_samples, num_parts)
     # Use GPU for IoU 3D calculation
-    #ious = compute_iou3d(gt_annotation_frames, pred_annotation_frames)
+    # ious = compute_iou3d(gt_annotation_frames, pred_annotation_frames)
     ious = compute_iou3d_cpu(gt_annotation_frames, pred_annotation_frames)
     num_classes = len(classes)
     num_difficulties = 4
@@ -202,7 +314,6 @@ def get_evaluation_results(
         if len(gt_anno["name"]) == 0 or len(pred_anno["name"]) == 0:
             print("no gt or prediction")
             continue
-
 
         for cur_class in classes:
             if gt_anno["name"].size > 0:
@@ -296,10 +407,10 @@ def get_evaluation_results(
             ### draw p-r curve ###
             for th_idx in range(len(thresholds)):
                 recall[cls_idx, diff_idx, th_idx] = confusion_matrix[th_idx, 0] / (
-                    confusion_matrix[th_idx, 0] + confusion_matrix[th_idx, 2]
+                        confusion_matrix[th_idx, 0] + confusion_matrix[th_idx, 2]
                 )
                 precision[cls_idx, diff_idx, th_idx] = confusion_matrix[th_idx, 0] / (
-                    confusion_matrix[th_idx, 0] + confusion_matrix[th_idx, 1]
+                        confusion_matrix[th_idx, 0] + confusion_matrix[th_idx, 1]
                 )
 
             for th_idx in range(len(thresholds)):
@@ -325,11 +436,9 @@ def get_evaluation_results(
         ret_str += "%-12.2f|" % (np.mean(recall[idx], axis=-1)[0] * 100)
         recall_values.append(np.mean(recall[idx], axis=-1)[0] * 100)
         ret_str += "\n"
-    print(ret_str)
     ret_dict = {}
-    ret_dict["precision"] = precision_values/len(classes)
-    ret_dict["recall"] = recall_values/len(classes)
-
+    ret_dict["precision"] = np.mean(precision_values)
+    ret_dict["recall"] = np.mean(recall_values)
 
     ret_str = "|AP@%-15s|" % (str(num_pr_points))
     for diff_type in difficulty_types:
@@ -358,7 +467,7 @@ def get_evaluation_results(
         ret_str += "%-10.2f|" % np.average(rot_err[cls_idx].flatten())
         ret_str += "\n"
     mAP = np.mean(AP, axis=0)
-    
+
     ret_str += "|%-18s|" % "mAP"
     for diff_idx in range(num_difficulties):
         diff_type = difficulty_types[diff_idx]
@@ -366,20 +475,17 @@ def get_evaluation_results(
         ap_score = mAP[diff_idx]
         ret_dict[key] = ap_score
         ret_str += "%-15.2f|" % ap_score
-    ret_dict["3d_map"] = mAP[0] # 3D mAP for distance [0 - inf]
+    ret_dict["3d_map"] = mAP[0]  # 3D mAP for distance [0 - inf]
     ret_str += "%-20s|" % (
-        str(np.sum(list(pred_class_occurrence.values())))
-        + "/"
-        + str(np.sum(list(gt_class_occurrence.values())))
-        + " (Total)"
+            str(np.sum(list(pred_class_occurrence.values())))
+            + "/"
+            + str(np.sum(list(gt_class_occurrence.values())))
+            + " (Total)"
     )
     ret_str += "%-10.2f|" % np.average(iou_3d.flatten())
     ret_str += "%-10.2f|" % np.average(pos_err.flatten())
     ret_str += "%-10.2f|" % np.average(rot_err.flatten())
     ret_str += "\n"
-
-    if print_results:
-        print(ret_str)
 
     ####################
     ## pretty print (for excel sheet)
@@ -411,7 +517,7 @@ def get_evaluation_results(
     ret_dict["rotation_rmse"] = np.average(rot_err.flatten())
 
     # print pretty table results for excel sheet
-    print(ret_header_str)
+    # print(ret_header_str)
     ####################
     return ret_str, ret_dict
 
@@ -665,8 +771,8 @@ def compute_iou3d(gt_annos, pred_annos, split_parts, with_heading):
     ious = []
     sample_idx = 0
     for num_part_samples in split_parts:
-        gt_annos_part = gt_annos[sample_idx : sample_idx + num_part_samples]
-        pred_annos_part = pred_annos[sample_idx : sample_idx + num_part_samples]
+        gt_annos_part = gt_annos[sample_idx: sample_idx + num_part_samples]
+        pred_annos_part = pred_annos[sample_idx: sample_idx + num_part_samples]
 
         gt_boxes = np.concatenate([anno["boxes_3d"] for anno in gt_annos_part], 0)
         pred_boxes = np.concatenate([anno["boxes_3d"] for anno in pred_annos_part], 0)
@@ -680,7 +786,7 @@ def compute_iou3d(gt_annos, pred_annos, split_parts, with_heading):
         for idx in range(num_part_samples):
             gt_box_num = gt_num_per_sample[sample_idx + idx]
             pred_box_num = pred_num_per_sample[sample_idx + idx]
-            ious.append(iou3d_part[gt_num_idx : gt_num_idx + gt_box_num, pred_num_idx : pred_num_idx + pred_box_num])
+            ious.append(iou3d_part[gt_num_idx: gt_num_idx + gt_box_num, pred_num_idx: pred_num_idx + pred_box_num])
             gt_num_idx += gt_box_num
             pred_num_idx += pred_box_num
         sample_idx += num_part_samples
@@ -731,7 +837,9 @@ def load_3d_boxes(input_file_path):
                 if np.linalg.norm([quat_x, quat_y, quat_z, quat_w]) == 0.0:
                     continue
 
-                rotation_yaw = R.from_quat([quat_x, quat_y, quat_z, quat_w])
+                # rotation_yaw = R.from_quat([quat_x, quat_y, quat_z, quat_w]).as_euler()
+                # convert quaternion to euler angle
+                rotation_yaw = R.from_quat([quat_x, quat_y, quat_z, quat_w]).as_euler("zyx")[0]
                 position_3d = [
                     float(label["object_data"]["cuboid"]["val"][0]),
                     float(label["object_data"]["cuboid"]["val"][1]),
@@ -742,18 +850,18 @@ def load_3d_boxes(input_file_path):
                 num_points = 0
                 if attribute is not None:
                     num_points = int(float(attribute["val"]))
-                
+
                 # Specify how many minimum points there should be before a label is included.
-                if num_points >= 5:
-                    name.append(category.upper())
-                    boxes_3d.append(np.hstack((position_3d, l, w, h, rotation_yaw)))
-                    num_points_in_gt.append(num_points)
+                # if num_points >= 5:
+                name.append(category.upper())
+                boxes_3d.append(np.hstack((position_3d, l, w, h, rotation_yaw)))
+                num_points_in_gt.append(num_points)
 
                 attribute = get_attribute_by_name(label["object_data"]["cuboid"]["attributes"]["num"], "score")
                 if attribute is not None:
                     score = attribute["val"]
                     scores.append(score)
-       
+
         label_dict = {
             "name": np.array(name),
             "boxes_3d": np.array(boxes_3d),
@@ -762,9 +870,6 @@ def load_3d_boxes(input_file_path):
         }
         labels_list.append(label_dict)
     return labels_list
-
-
-
 
 
 def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwargs):
@@ -822,7 +927,6 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     gt_data = load_3d_boxes(test_annotation_file)
     pred_data = load_3d_boxes(user_submission_file)
 
-
     result_str, result_dict = get_evaluation_results(
         gt_data,
         pred_data,
@@ -831,7 +935,6 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     )
     output = {}
 
-    
     print("Evaluating for Test Phase")
     # TODO: check keys
     output["result"] = [
@@ -848,5 +951,13 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     ]
     # To display the results in the result file
     output["submission_result"] = output["result"][0]
+
+    print("Precision: ", result_dict["precision"])
+    print("Recall: ", result_dict["recall"])
+    print("3D_IoU: ", result_dict["3d_iou"])
+    print("Position_RMSE: ", result_dict["position_rmse"])
+    print("Rotation_RMSE: ", result_dict["rotation_rmse"])
+    print("3D_mAP: ", result_dict["3d_map"])
+
     print("Completed evaluation for Test Phase")
     return output
