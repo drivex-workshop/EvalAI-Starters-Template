@@ -176,9 +176,7 @@ def get_box3d_iou(box_info):
     corners_3d_ground = get_3d_box(gt_box[3:6], gt_box[-1], gt_box[[0, 2, 1]])
     corners_3d_predict = get_3d_box(pred_box[3:6], pred_box[-1], pred_box[[0, 2, 1]])
 
-    start_time = time.time()
     iou_3d, _ = box3d_iou(corners_3d_ground, corners_3d_predict)
-    print("Time taken for iou computation in seconds: ", time.time() - start_time)
     return iou_3d
 
 
@@ -194,19 +192,18 @@ def rotate_iou_cpu_eval(gt_boxes, pred_boxes):
         for pred_box in pred_boxes:
             data_list.append((gt_box, pred_box))
 
-
     use_multiprocessing = False  # NOTE: for debugging set use_multiprocessing=False
     if use_multiprocessing:
         start_time = time.time()
         with Pool(8) as pool:
             result = pool.map(get_box3d_iou, data_list)
-        print("Total time taken for iou computation in seconds (multi CPU cores): ", time.time() - start_time)
+        print("Total time taken for iou computation in seconds (multi CPU cores): ", round(time.time() - start_time, 2))
     else:
         start_time = time.time()
         result = []
-        for item in data_list:
+        for idx, item in enumerate(data_list):
             result.append(get_box3d_iou(item))
-        print("Total time taken for iou computation in seconds (single CPU core): ", time.time() - start_time)
+        print("Total time taken for iou computation in seconds (single CPU core): ", round(time.time() - start_time, 2))
 
     result = np.array(result)
     if result.size > 0:
@@ -267,7 +264,6 @@ def get_evaluation_results(
 
     num_samples = len(gt_annotation_frames)
     split_parts = compute_split_parts(num_samples, num_parts)
-    print("computing iou3d...")
     ious = compute_iou3d_cpu(gt_annotation_frames, pred_annotation_frames)
     num_classes = len(classes)
     num_difficulties = 4
@@ -318,7 +314,6 @@ def get_evaluation_results(
                 pred_score = pred_anno["score"]
                 if len(ious) > 0:
                     iou = ious[sample_idx]
-                    print("filtering data for class %s, difficulty %s" % (cur_class, difficulty_mode))
                     gt_flag, pred_flag = filter_data(
                         gt_anno,
                         pred_anno,
@@ -330,7 +325,6 @@ def get_evaluation_results(
                     pred_flags.append(pred_flag)
                     num_valid_gt += sum(gt_flag == 0)
                     if iou.size > 0:
-                        print("Accumulating scores for class %s, difficulty %s" % (cur_class, difficulty_mode))
                         accum_scores, accum_iou, accum_pos, accum_rot = accumulate_scores(
                             gt_anno["boxes_3d"],
                             pred_anno["boxes_3d"],
@@ -360,7 +354,6 @@ def get_evaluation_results(
             all_ious = np.concatenate(accum_all_ious, axis=0)
             all_pos = np.concatenate(accum_all_pos, axis=0)
             all_rot = np.concatenate(accum_all_rot, axis=0)
-            print("Computing thresholds for class %s, difficulty %s" % (cur_class, difficulty_mode))
             thresholds = get_thresholds(all_scores, num_valid_gt, num_pr_points=num_pr_points)
 
             ### compute avg iou, pos/rot error ###
@@ -376,8 +369,6 @@ def get_evaluation_results(
                 gt_flag, pred_flag = gt_flags[sample_idx], pred_flags[sample_idx]
                 for th_idx, score_th in enumerate(thresholds):
                     if iou.size > 0:
-                        print("Computing statistics (TP, FP, FN) for class %s, difficulty %s, threshold %d/%d" % (
-                            cur_class, difficulty_mode, th_idx, len(thresholds)))
                         tp, fp, fn = compute_statistics(
                             iou, pred_score, gt_flag, pred_flag, score_threshold=score_th, iou_threshold=iou_threshold
                         )
@@ -673,12 +664,9 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
         "EMERGENCY_VEHICLE",
         "OTHER",
     ]
-    print("loading GT data...")
     gt_data = load_3d_boxes(test_annotation_file)
-    print("loading Prediction data...")
     pred_data = load_3d_boxes(user_submission_file)
 
-    print("Calculating Evaluation Metrics...")
     result_dict = get_evaluation_results(
         gt_data,
         pred_data,

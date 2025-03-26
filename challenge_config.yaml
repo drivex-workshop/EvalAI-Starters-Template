@@ -37,12 +37,12 @@ leaderboard:
         between a predicted and a ground truth 3D bounding box, measuring spatial overlap.",
           },
           "Position RMSE (Root Mean Squared Error)": {
-            "sort_ascending": True,
+            "sort_ascending": False,
             "description": "The square root of the mean squared differences
         between predicted and ground truth positions, evaluating localization accuracy.",
           },
           "Rotation RMSE": {
-            "sort_ascending": True,
+            "sort_ascending": False,
             "description": "The square root of the mean squared differences between predicted and ground
         truth rotations, quantifying angular estimation errors.",
           },
