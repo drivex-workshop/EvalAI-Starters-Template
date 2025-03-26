@@ -10,6 +10,7 @@ from pathlib import Path
 from multiprocessing import Pool
 from scipy.spatial import ConvexHull
 import time
+
 ##################################
 # Evaluation Script for 3D Object Detection
 ##################################
@@ -27,6 +28,7 @@ iou_threshold_dict = {
     "EMERGENCY_VEHICLE": 0.1,
     "OTHER": 0.1,
 }
+
 
 def get_3d_box(box_size, heading_angle, center):
     """Calculate 3D bounding box corners from its parameterization.
@@ -57,10 +59,10 @@ def get_3d_box(box_size, heading_angle, center):
     return corners_3d
 
 
-
 def poly_area(x, y):
     """Ref: http://stackoverflow.com/questions/24467972/calculate-area-of-polygon-given-x-y-coordinates"""
     return 0.5 * np.abs(np.dot(x, np.roll(y, 1)) - np.dot(y, np.roll(x, 1)))
+
 
 @numba.jit(nopython=True)
 def box3d_vol(corners):
@@ -120,6 +122,7 @@ def polygon_clip(subjectPolygon, clipPolygon):
             return None
     return outputList
 
+
 def convex_hull_intersection(p1, p2):
     """Compute area of two convex hull's intersection area.
     p1,p2 are a list of (x,y) tuples of hull vertices.
@@ -165,7 +168,6 @@ def box3d_iou(corners1, corners2):
     return iou, iou_2d
 
 
-
 def get_box3d_iou(box_info):
     gt_box, pred_box = box_info
     if np.linalg.norm(gt_box[:3] - pred_box[:3]) > 5:
@@ -174,7 +176,9 @@ def get_box3d_iou(box_info):
     corners_3d_ground = get_3d_box(gt_box[3:6], gt_box[-1], gt_box[[0, 2, 1]])
     corners_3d_predict = get_3d_box(pred_box[3:6], pred_box[-1], pred_box[[0, 2, 1]])
 
+    start_time = time.time()
     iou_3d, _ = box3d_iou(corners_3d_ground, corners_3d_predict)
+    print("Time taken for iou computation in seconds: ", time.time() - start_time)
     return iou_3d
 
 
@@ -189,12 +193,21 @@ def rotate_iou_cpu_eval(gt_boxes, pred_boxes):
     for gt_box in gt_boxes:
         for pred_box in pred_boxes:
             data_list.append((gt_box, pred_box))
-    with Pool(8) as pool:
-        result = pool.map(get_box3d_iou, data_list)
-    # For Debugging: same result but no multithread
-    # result = []
-    # for item in data_list:
-    #     result.append(rotate_iou_cpu_one(item))
+
+
+    use_multiprocessing = False  # NOTE: for debugging set use_multiprocessing=False
+    if use_multiprocessing:
+        start_time = time.time()
+        with Pool(8) as pool:
+            result = pool.map(get_box3d_iou, data_list)
+        print("Total time taken for iou computation in seconds (multi CPU cores): ", time.time() - start_time)
+    else:
+        start_time = time.time()
+        result = []
+        for item in data_list:
+            result.append(get_box3d_iou(item))
+        print("Total time taken for iou computation in seconds (single CPU core): ", time.time() - start_time)
+
     result = np.array(result)
     if result.size > 0:
         result = result.reshape((gt_num, -1))
@@ -211,6 +224,7 @@ def compute_split_parts(num_samples, num_parts):
         return [part_samples] * num_parts
     else:
         return [part_samples] * num_parts + [remain_samples]
+
 
 def overall_filter(boxes, level):
     ignore = np.ones(boxes.shape[0], dtype=bool)  # all true
@@ -253,6 +267,7 @@ def get_evaluation_results(
 
     num_samples = len(gt_annotation_frames)
     split_parts = compute_split_parts(num_samples, num_parts)
+    print("computing iou3d...")
     ious = compute_iou3d_cpu(gt_annotation_frames, pred_annotation_frames)
     num_classes = len(classes)
     num_difficulties = 4
@@ -303,6 +318,7 @@ def get_evaluation_results(
                 pred_score = pred_anno["score"]
                 if len(ious) > 0:
                     iou = ious[sample_idx]
+                    print("filtering data for class %s, difficulty %s" % (cur_class, difficulty_mode))
                     gt_flag, pred_flag = filter_data(
                         gt_anno,
                         pred_anno,
@@ -314,6 +330,7 @@ def get_evaluation_results(
                     pred_flags.append(pred_flag)
                     num_valid_gt += sum(gt_flag == 0)
                     if iou.size > 0:
+                        print("Accumulating scores for class %s, difficulty %s" % (cur_class, difficulty_mode))
                         accum_scores, accum_iou, accum_pos, accum_rot = accumulate_scores(
                             gt_anno["boxes_3d"],
                             pred_anno["boxes_3d"],
@@ -343,6 +360,7 @@ def get_evaluation_results(
             all_ious = np.concatenate(accum_all_ious, axis=0)
             all_pos = np.concatenate(accum_all_pos, axis=0)
             all_rot = np.concatenate(accum_all_rot, axis=0)
+            print("Computing thresholds for class %s, difficulty %s" % (cur_class, difficulty_mode))
             thresholds = get_thresholds(all_scores, num_valid_gt, num_pr_points=num_pr_points)
 
             ### compute avg iou, pos/rot error ###
@@ -358,6 +376,8 @@ def get_evaluation_results(
                 gt_flag, pred_flag = gt_flags[sample_idx], pred_flags[sample_idx]
                 for th_idx, score_th in enumerate(thresholds):
                     if iou.size > 0:
+                        print("Computing statistics (TP, FP, FN) for class %s, difficulty %s, threshold %d/%d" % (
+                            cur_class, difficulty_mode, th_idx, len(thresholds)))
                         tp, fp, fn = compute_statistics(
                             iou, pred_score, gt_flag, pred_flag, score_threshold=score_th, iou_threshold=iou_threshold
                         )
@@ -420,6 +440,7 @@ def get_thresholds(scores, num_gt, num_pr_points):
             thresholds.append(score)
             recall_level += 1 / num_pr_points
     return thresholds
+
 
 @numba.jit(nopython=True)
 def accumulate_scores(gt_shapes, pred_shapes, iou, pred_scores, gt_flag, pred_flag, iou_threshold):
@@ -565,7 +586,6 @@ def compute_iou3d_cpu(gt_annos, pred_annos):
     for i in range(gt_num):
         gt_boxes = gt_annos[i]["boxes_3d"]
         pred_boxes = pred_annos[i]["boxes_3d"]
-
         iou3d_part = rotate_iou_cpu_eval(gt_boxes, pred_boxes)
         ious.append(iou3d_part)
     return ious
@@ -576,6 +596,7 @@ def get_attribute_by_name(attribute_list, attribute_name):
         if attribute["name"] == attribute_name:
             return attribute
     return None
+
 
 def load_3d_boxes(input_file_path):
     labels_list = []
@@ -636,6 +657,7 @@ def load_3d_boxes(input_file_path):
         labels_list.append(label_dict)
     return labels_list
 
+
 def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwargs):
     print("Starting Remote Evaluation.....")
     start_time = time.time()
@@ -651,9 +673,12 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
         "EMERGENCY_VEHICLE",
         "OTHER",
     ]
+    print("loading GT data...")
     gt_data = load_3d_boxes(test_annotation_file)
+    print("loading Prediction data...")
     pred_data = load_3d_boxes(user_submission_file)
 
+    print("Calculating Evaluation Metrics...")
     result_dict = get_evaluation_results(
         gt_data,
         pred_data,
